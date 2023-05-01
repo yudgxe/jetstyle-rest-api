@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    command: ./wait-for-postgres.sh db bash -c "mig init && mig up && app serve"
+    build:
+      context: ../
+      dockerfile: ./build/Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    environment:
+      - DB_PASSWORD=123
+    container_name: app
+
+    
+  db:
+    image: postgres:latest
+    volumes:
+      - ../.database/postgres/data:/var/lib/postgres/data
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=jetstyle
+    ports:
+      - 5436:5432
+    container_name: postgres

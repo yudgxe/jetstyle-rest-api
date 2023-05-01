@@ -1,0 +1,205 @@
+basePath: /
+definitions:
+  handler.CreateInput:
+    properties:
+      name:
+        type: string
+      owner:
+        minimum: 1
+        type: integer
+    type: object
+  handler.UpdateInput:
+    properties:
+      is_complete:
+        default: false
+        type: boolean
+      name:
+        type: string
+      owner:
+        minimum: 1
+        type: integer
+    type: object
+  handler.errorResponce:
+    properties:
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  model.Task:
+    properties:
+      complete_date:
+        type: string
+      create_date:
+        type: string
+      id:
+        minimum: 1
+        type: integer
+      is_complete:
+        type: boolean
+      name:
+        type: string
+      owner:
+        minimum: 1
+        type: integer
+      update_date:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API Server for Jetstyle test tasks
+  title: Jetstyle API
+  version: "1.0"
+paths:
+  /tasks:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: task info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: Create
+      tags:
+      - tasks
+  /tasks/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Task id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete task
+      tags:
+      - tasks
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Task id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Task'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: Get task
+      tags:
+      - tasks
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Task id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: task info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UpdateInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Task'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.errorResponce'
+      security:
+      - ApiKeyAuth: []
+      summary: Update task
+      tags:
+      - tasks
+securityDefinitions:
+  BasicAuth:
+    type: basic
+swagger: "2.0"
