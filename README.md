@@ -2,6 +2,13 @@
 REST API for jetstyle test  
 
 Документация: http://localhost:8080/swagger/index.html
+
+### Run
+ * make build ; make up - Windows
+ * make build & make up - Unix
+
+При создание пользоваетля не забыть указать -db:host т.к конфиг по умолчанию подразумевает исполнение в контейнере.  
+Пример: go run .\cmd\app\main.go create -l login -p password -db:host localhost
   
 Всего существует две сабкоманды.
  * serve - старт сервера
@@ -51,15 +58,6 @@ go run .\cmd\app\main.go --help
   -config-path string
         path to config file (default "configs/config.toml")
 ```
-
-
-### Run
- * make build ; make up - Windows
- * make build & make up - Unix
-
-При создание пользоваетля не забыть указать -db:host т.к конфиг по умолчанию подразумевает исполнение в контейнере.  
-Пример: go run .\cmd\app\main.go create -l login -p password -db:host localhost
-
 ### Тестирование  
 Тесты написаны для хендлеров и репозиториев.  
 Для репозиториев используется тестовой инстанс бд c конфигом по умолчанию. (tests\psql\configs\config.toml)  
